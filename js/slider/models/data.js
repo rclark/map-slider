@@ -5,7 +5,8 @@ slider.models.Data = function (config) {
     layer: config.type(
       config.url || config.github, 
       config.options || {}
-    )
+    ),
+    active: config.active ? true : false
   };
   
   return data;

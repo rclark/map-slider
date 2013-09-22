@@ -1,22 +1,21 @@
-slider.models.Label = function (map) {
-  var id = 'label-for-' + map.id,
-      label = {
+slider.models.Info = function (map) {
+  var id = 'info-for-' + map.id,
+      info = {
         id: id,
         selector: '#' + id, 
         name: map.name,
-        description: map.description | '',
         map: map
       };
   
   map.on('shown', function () {
-    d3.select(label.selector)
+    d3.select(info.selector)
       .classed('active', true);
   });
   
   map.on('hidden', function () {
-    d3.select(label.selector)
+    d3.select(info.selector)
       .classed('active', false);
   });
   
-  return label;
+  return info;
 };

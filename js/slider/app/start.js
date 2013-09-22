@@ -6,7 +6,7 @@ slider.app.start = function (config) {
   
   // Build base layers
   slider.app.bases = _.map(config.baseLayers, function (baseConfig) {
-    var base = slider.models.Base(baseConfig);
+    var base = slider.models.Data(baseConfig);
     if (baseConfig.active) {
       slider.app.activeBase = base.layer;
     }
@@ -15,7 +15,7 @@ slider.app.start = function (config) {
   
   // Build top layers
   slider.app.tops = _.map(config.topLayers || [], function (topConfig) {
-    var top = slider.models.Base(topConfig);
+    var top = slider.models.Data(topConfig);
     if (topConfig.active) {
       slider.app.activeTop = top.layer;
     }
@@ -28,7 +28,7 @@ slider.app.start = function (config) {
       return slider.models.Data(dataConfig);  
     });
     
-    return slider.models.Map(mapConfig.name, data);
+    return slider.models.Map(mapConfig.name, data, mapConfig.options || {});
   });
   
   // Generate labels

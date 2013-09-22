@@ -156,6 +156,7 @@ slider.config = {
       name: 'Subdued Terrain',
       label: 'terrain',
       url: 'http://a.tiles.mapbox.com/v3/rclark.map-swcvfr1t/{z}/{x}/{y}.png',
+      type: slider.layers.Tiles,
       active: true
     }
   ],
@@ -164,6 +165,7 @@ slider.config = {
       name: 'Subdued Roads',
       label: 'roads',
       url: 'http://a.tiles.mapbox.com/v3/rclark.map-t7ep1mrm/{z}/{x}/{y}.png',
+      type: slider.layers.Tiles,
       active: true
     }
   ]

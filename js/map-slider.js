@@ -90,36 +90,11 @@ slider.models.Data = function (config) {
     layer: config.type(
       config.url || config.github, 
       config.options || {}
-    )
+    ),
+    active: config.active ? true : false
   };
   
   return data;
-};
-
-/* **********************************************
-     Begin base.js
-********************************************** */
-
-slider.models.Base = function (label, name, url, options) {
-  var active = false;
-  
-  if (_.isObject(label) && _.intersection(_.keys(label), ['label', 'name', 'url']).length === 3) {
-    var config = _.clone(label);
-    label = config.label;
-    name = config.name;
-    url = config.url;
-    options = config.options || {};
-    active = config.active ? true : false;
-  }
-  
-  var base = {
-    label: label,
-    name: name,
-    layer: slider.layers.Base(url, options),
-    active: active
-  };
-  
-  return base;
 };
 
 /* **********************************************
@@ -140,11 +115,14 @@ slider.models.Map = function (name, data, options) {
     active: false
   };
   
-  // Mixin events
-  _.extend(map, Backbone.Events);
+  // Mixin options and events
+  _.extend(map, options, Backbone.Events);
   
   // Generate a label for the map
   map.label = slider.models.Label(map);
+  
+  // Generate info for the map
+  map.info = slider.models.Info(map);
   
   // Build an array of layers to be drawn on this map
   var mapLayers = _.map(data, function (data) {
@@ -188,7 +166,6 @@ slider.models.Label = function (map) {
         id: id,
         selector: '#' + id, 
         name: map.name,
-        map: map.id,
         description: map.description | '',
         map: map
       };
@@ -204,6 +181,32 @@ slider.models.Label = function (map) {
   });
   
   return label;
+};
+
+/* **********************************************
+     Begin info.js
+********************************************** */
+
+slider.models.Info = function (map) {
+  var id = 'info-for-' + map.id,
+      info = {
+        id: id,
+        selector: '#' + id, 
+        name: map.name,
+        map: map
+      };
+  
+  map.on('shown', function () {
+    d3.select(info.selector)
+      .classed('active', true);
+  });
+  
+  map.on('hidden', function () {
+    d3.select(info.selector)
+      .classed('active', false);
+  });
+  
+  return info;
 };
 
 /* **********************************************
@@ -456,6 +459,7 @@ slider.config = {
       name: 'Subdued Terrain',
       label: 'terrain',
       url: 'http://a.tiles.mapbox.com/v3/rclark.map-swcvfr1t/{z}/{x}/{y}.png',
+      type: slider.layers.Tiles,
       active: true
     }
   ],
@@ -464,6 +468,7 @@ slider.config = {
       name: 'Subdued Roads',
       label: 'roads',
       url: 'http://a.tiles.mapbox.com/v3/rclark.map-t7ep1mrm/{z}/{x}/{y}.png',
+      type: slider.layers.Tiles,
       active: true
     }
   ]
@@ -487,7 +492,7 @@ slider.app.start = function (config) {
   
   // Build base layers
   slider.app.bases = _.map(config.baseLayers, function (baseConfig) {
-    var base = slider.models.Base(baseConfig);
+    var base = slider.models.Data(baseConfig);
     if (baseConfig.active) {
       slider.app.activeBase = base.layer;
     }
@@ -496,7 +501,7 @@ slider.app.start = function (config) {
   
   // Build top layers
   slider.app.tops = _.map(config.topLayers || [], function (topConfig) {
-    var top = slider.models.Base(topConfig);
+    var top = slider.models.Data(topConfig);
     if (topConfig.active) {
       slider.app.activeTop = top.layer;
     }
@@ -509,7 +514,7 @@ slider.app.start = function (config) {
       return slider.models.Data(dataConfig);  
     });
     
-    return slider.models.Map(mapConfig.name, data);
+    return slider.models.Map(mapConfig.name, data, mapConfig.options || {});
   });
   
   // Generate labels

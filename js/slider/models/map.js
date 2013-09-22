@@ -12,11 +12,14 @@ slider.models.Map = function (name, data, options) {
     active: false
   };
   
-  // Mixin events
-  _.extend(map, Backbone.Events);
+  // Mixin options and events
+  _.extend(map, options, Backbone.Events);
   
   // Generate a label for the map
   map.label = slider.models.Label(map);
+  
+  // Generate info for the map
+  map.info = slider.models.Info(map);
   
   // Build an array of layers to be drawn on this map
   var mapLayers = _.map(data, function (data) {

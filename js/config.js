@@ -129,7 +129,7 @@ slider.config = {
           type: slider.layers.Tiles,
           url: 'http://{s}.tiles.usgin.org/fire-risk-index/{z}/{x}/{y}.png',
           options: {
-            opacity: 0.5  
+            opacity: 0.5
           }
         }
       ]
@@ -151,4 +151,4 @@ slider.config = {
       active: true
     }
   ]
-}
+};

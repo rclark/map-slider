@@ -15,11 +15,14 @@ slider.layers.GeoJSON = function (url, options) {
         var geojson = this.processData(json);
         if (geojson) {
           this.addData(geojson);
-  
-          if (options.domId) {
-            //this.getLayers()[0]._container.parentNode.setAttribute('id', options.domId);
-          }
         }
+      }
+    },
+    
+    onAdd: function (map) {
+      L.GeoJSON.prototype.onAdd.call(this, map);
+      if (options.domId && _.keys(this._layers).length > 0) {
+        this.getLayers()[0]._container.parentNode.setAttribute('id', options.domId);  
       }
     }
   });

@@ -11,8 +11,12 @@ ul#labels {
   height: 50px;
   line-height: 50px;
   background-color: #819ac9;
-  border-bottom: 1px solid #4464a0;
+  border-top: 1px solid #4464a0;
   color: #819ac9;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
 }
 ul#labels .map-label {
   display: inline-block;
@@ -34,9 +38,18 @@ ul#labels .map-label.active {
   text-shadow: none;
 }
 #map-container {
-  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 51px;
 }
 #map-container .slider-map {
   height: 100%;
   width: 100%;
+}
+#map-container .slider-map #earthquake-leaflet-layer path:hover {
+  stroke: red;
+  stroke-width: 4px;
+  transition: all 0.5s ease-in-out;
 }

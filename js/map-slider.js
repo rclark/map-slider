@@ -221,55 +221,6 @@ slider.layers.Base = function (url, options) {
 }
 
 /* **********************************************
-     Begin github.js
-********************************************** */
-
-slider.layers.GitHub = function (config, options) {
-  var url = 'https://api.github.com/repos/' + [config.user, config.repo, 'contents', config.path].join('/'),
-      layer = slider.layers.GeoJSON(url, options);
-  
-  layer.processData = function (json) {
-    if (json.content === '') {
-      d3.json(json._links.git, this.gotData);
-    } else {
-      var content = json.content.replace(/\s/g, ''),
-          data = atob(content),
-          geojson = JSON.parse(data);
-      this.addData(geojson);
-    }
-  };
-  
-  return layer;
-};
-  
-/*
-  var GitHubLayer = L.GeoJSON.extend({
-    initialize: function (user, repo, path, options) {
-      L.GeoJSON.prototype.initialize.call(this, null, options);
-      url = 'https://api.github.com/repos/' + [user, repo, 'contents', path].join('/');
-      _.bindAll(this, 'gotData');
-      d3.json(url, this.gotData);
-    },
-    
-    gotData: function (err, json) {
-      if (!err) {
-        if (json.content === '') {
-          d3.json(json._links.git, this.gotData);
-        } else {
-          var content = json.content.replace(/\s/g, ''),
-              data = atob(content),
-              geojson = JSON.parse(data);
-          this.addData(geojson);
-        }
-      }
-    }
-  });
-  
-  return new GitHubLayer(user, repo, path, options);  
-};
-*/
-
-/* **********************************************
      Begin geojson.js
 ********************************************** */
 
@@ -290,11 +241,14 @@ slider.layers.GeoJSON = function (url, options) {
         var geojson = this.processData(json);
         if (geojson) {
           this.addData(geojson);
-  
-          if (options.domId) {
-            //this.getLayers()[0]._container.parentNode.setAttribute('id', options.domId);
-          }
         }
+      }
+    },
+    
+    onAdd: function (map) {
+      L.GeoJSON.prototype.onAdd.call(this, map);
+      if (options.domId && _.keys(this._layers).length > 0) {
+        this.getLayers()[0]._container.parentNode.setAttribute('id', options.domId);  
       }
     }
   });
@@ -308,6 +262,28 @@ slider.layers.GeoJSON = function (url, options) {
 
 slider.layers.Tiles = function (url, options) {
   return L.tileLayer(url, options);  
+};
+
+/* **********************************************
+     Begin github.js
+********************************************** */
+
+slider.layers.GitHub = function (config, options) {
+  var url = 'https://api.github.com/repos/' + [config.user, config.repo, 'contents', config.path].join('/'),
+      layer = slider.layers.GeoJSON(url, options);
+  
+  layer.processData = function (json) {
+    if (json.content === '') {
+      d3.json(json._links.git, this.gotData);
+    } else {
+      var content = json.content.replace(/\s/g, ''),
+          data = atob(content),
+          geojson = JSON.parse(data);
+      this.addData(geojson);
+    }
+  };
+  
+  return layer;
 };
 
 /* **********************************************
@@ -445,7 +421,7 @@ slider.config = {
           type: slider.layers.Tiles,
           url: 'http://{s}.tiles.usgin.org/fire-risk-index/{z}/{x}/{y}.png',
           options: {
-            opacity: 0.5  
+            opacity: 0.5
           }
         }
       ]
@@ -467,7 +443,7 @@ slider.config = {
       active: true
     }
   ]
-}
+};
 
 /* **********************************************
      Begin app.js

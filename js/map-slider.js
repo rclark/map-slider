@@ -217,7 +217,7 @@ slider.layers = {};
 ********************************************** */
 
 slider.layers.Base = function (url, options) {
-  return new L.TileLayer(url, options);
+  return L.tileLayer(url, options);
 }
 
 /* **********************************************
@@ -284,6 +284,14 @@ slider.layers.GitHub = function (config, options) {
   };
   
   return layer;
+};
+
+/* **********************************************
+     Begin wms.js
+********************************************** */
+
+slider.layers.Wms = function (url, options) {
+  return L.tileLayer.wms(url, options);  
 };
 
 /* **********************************************
@@ -425,6 +433,22 @@ slider.config = {
           }
         }
       ]
+    },
+    {
+      name: 'Flood Risk',
+      data: [
+        {
+          label: 'floodrisk',
+          name: 'Flood Risk',
+          type: slider.layers.Wms,
+          url: 'http://data.azgs.az.gov/arizona/gwc/service/wms',
+          options: {
+            layers: 'azgs:floods',
+            format: 'image/png',
+            transparent: true
+          }
+        }
+      ]
     }
   ],
   baseLayers: [
@@ -516,7 +540,7 @@ slider.app.start = function (config) {
   if (slider.app.activeBase) { slider.app.activeBase.addTo(slider.app.map); }
   if (slider.app.activeTop) {
     slider.app.activeTop.addTo(slider.app.map);
-    slider.app.activeTop._tileContainer.parentNode.style.zIndex = 4000;
+    slider.app.activeTop.setZIndex(400);
   }
   
   // Stash maps so that they can be looked up

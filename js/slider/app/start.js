@@ -59,7 +59,7 @@ slider.app.start = function (config) {
   if (slider.app.activeBase) { slider.app.activeBase.addTo(slider.app.map); }
   if (slider.app.activeTop) {
     slider.app.activeTop.addTo(slider.app.map);
-    slider.app.activeTop._tileContainer.parentNode.style.zIndex = 4000;
+    slider.app.activeTop.setZIndex(400);
   }
   
   // Stash maps so that they can be looked up

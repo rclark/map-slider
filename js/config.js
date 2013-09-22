@@ -133,6 +133,22 @@ slider.config = {
           }
         }
       ]
+    },
+    {
+      name: 'Flood Risk',
+      data: [
+        {
+          label: 'floodrisk',
+          name: 'Flood Risk',
+          type: slider.layers.Wms,
+          url: 'http://data.azgs.az.gov/arizona/gwc/service/wms',
+          options: {
+            layers: 'azgs:floods',
+            format: 'image/png',
+            transparent: true
+          }
+        }
+      ]
     }
   ],
   baseLayers: [

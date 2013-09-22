@@ -1,3 +1,4 @@
 node_modules/
 components/
 codekit-config.json
+.DS_Store

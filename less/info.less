@@ -1,0 +1,23 @@
+@pads: 10px;
+
+#info {
+  background-color: @infoColor;
+  //opacity: 0.9;
+  border-bottom: 1px solid @infoBorders;
+  border-top: 1px solid @infoBorders;
+  position: absolute;
+  height: @infoHeight;
+  bottom: @barHeight + 1;
+  left: 0px;
+  right: 0px;
+  color: white;
+  
+  .info-text {
+    width: 35%;
+    height: @infoHeight;
+    border-right: 1px solid @infoBorders;
+    display: inline-block;
+    padding: 0 @pads;
+    overflow-y: auto;
+  }
+}

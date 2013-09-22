@@ -101,22 +101,17 @@ slider.models.Data = function (config) {
      Begin map.js
 ********************************************** */
 
-slider.models.Map = function (name, data, options) {
-  // id for this map's DOM element, and pointer to its container
-  var id = name.toLowerCase().replace(/ /g, '-'),
-      selector = '#' + id,
-      container = d3.select('#map-container');
-  
+slider.models.Map = function (name, data, info) {
   // Generate the map object
   var map = {
     name: name,
-    id: id,
+    id: name.toLowerCase().replace(/ /g, '-'),
     data: data,
     active: false
   };
   
-  // Mixin options and events
-  _.extend(map, options, Backbone.Events);
+  // Mixin info and events
+  _.extend(map, info, Backbone.Events);
   
   // Generate a label for the map
   map.label = slider.models.Label(map);
@@ -166,18 +161,21 @@ slider.models.Label = function (map) {
         id: id,
         selector: '#' + id, 
         name: map.name,
-        description: map.description | '',
         map: map
       };
   
   map.on('shown', function () {
     d3.select(label.selector)
-      .classed('active', true);
+      .classed('active', true)
+      .append('div')
+      .classed('info-arrow', true);
   });
   
   map.on('hidden', function () {
     d3.select(label.selector)
-      .classed('active', false);
+      .classed('active', false)
+      .select('.info-arrow')
+      .remove();
   });
   
   return label;
@@ -197,13 +195,19 @@ slider.models.Info = function (map) {
       };
   
   map.on('shown', function () {
-    d3.select(info.selector)
-      .classed('active', true);
-  });
-  
-  map.on('hidden', function () {
-    d3.select(info.selector)
-      .classed('active', false);
+    var infoPane = d3.selectAll('#info').selectAll('div')
+      .data([info], function (d) { return d.id; }),
+    thisInfo = infoPane.enter()
+      .append('div'),
+    textBlock = thisInfo.append('div')
+      .classed('info-text', true)
+    title = textBlock.append('h2')
+      .text(function (d) { return d.name; }),
+    summary = textBlock.append('p')
+      .text(function (d) { return d.map.summary; });
+    
+    infoPane.exit()
+      .remove();
   });
   
   return info;
@@ -305,6 +309,9 @@ slider.config = {
   maps: [
     {
       name: 'Earthquake Epicenters',
+      info: {
+        summary: 'The earthquakes displayed are from the AZGS Earthquake Catalog, and are the minimum number of earthquakes that have occurred in the historical period dating to about 1850.'
+      },
       data: [
         {
           label: 'earthquakes',
@@ -354,6 +361,9 @@ slider.config = {
     },
     {
       name: 'Active Faults',
+      info: {
+        summary: 'Faults that are known to have been active within the last 2.5 million years (Quaternary period), and thus have some chance that they could generate a large earthquake.'  
+      },
       data: [
         {
           label: 'activefaults',
@@ -391,6 +401,9 @@ slider.config = {
     },
     {
       name: 'Earth Fissures',
+      info: {
+        summary: 'Earth fissures are open surface fractures that may be as much as a mile in length, up to 15 ft wide, and 10s of feet deep.'  
+      },
       data: [
         {
           label: 'earthfisssures',
@@ -425,6 +438,9 @@ slider.config = {
     },
     {
       name: 'Fire Risk Index',
+      info: {
+        summary: 'This map shows the relative risks of wildfire based on values at risk (i.e. development, infrastructure, etc.), the likelihood of an acre to burn, the expected final fire size based on fuels conditions and potential fire behavior and the difficulty or expense of suppression.'  
+      },
       data: [
         {
           label: 'firerisk',
@@ -439,6 +455,9 @@ slider.config = {
     },
     {
       name: 'Flood Risk',
+      info: {
+        summary: 'Areas with High and Medium flooding potential as represented by the 100- and 500- flood zones determined by the Federal Emergency Management Agency (FEMA) digital flood insurance rate maps (DFIRM) database, dated May 2010.'  
+      },
       data: [
         {
           label: 'floodrisk',
@@ -511,17 +530,15 @@ slider.app.start = function (config) {
   // Generate maps
   var maps = _.map(config.maps, function (mapConfig) {
     var data = _.map(mapConfig.data, function(dataConfig) {
-      return slider.models.Data(dataConfig);  
+      return slider.models.Data(dataConfig);
     });
     
-    return slider.models.Map(mapConfig.name, data, mapConfig.options || {});
+    return slider.models.Map(mapConfig.name, data, mapConfig.info || {});
   });
   
   // Generate labels
   d3.select('#labels').selectAll('li')
-    .data(_.map(maps, function (map) {
-      return map.label;
-    }))
+    .data(_.pluck(maps, 'label'))
     .enter().append('li')
     .text(function (d) { return d.name; })
     .attr('id', function (d) { return d.id; })
@@ -530,15 +547,14 @@ slider.app.start = function (config) {
       slider.app.setActiveMap(d.map);
     });
   
-  
   // Generate the Leaflet map
   d3.select('#map-container').append('div')
     .attr('id', 'map')
     .classed('slider-map', true);
   
   var mapOptions = _.extend({
-    center: L.latLng(34, -111),
-    zoom: 7
+    center: L.latLng(34.243594729697406, -111.46728515624999 ),
+    zoom: 6
   }, config.mapOptions || {});
   
   slider.app.map = L.map('map', mapOptions);

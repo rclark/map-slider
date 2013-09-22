@@ -2,6 +2,9 @@ slider.config = {
   maps: [
     {
       name: 'Earthquake Epicenters',
+      info: {
+        summary: 'The earthquakes displayed are from the AZGS Earthquake Catalog, and are the minimum number of earthquakes that have occurred in the historical period dating to about 1850.'
+      },
       data: [
         {
           label: 'earthquakes',
@@ -51,6 +54,9 @@ slider.config = {
     },
     {
       name: 'Active Faults',
+      info: {
+        summary: 'Faults that are known to have been active within the last 2.5 million years (Quaternary period), and thus have some chance that they could generate a large earthquake.'  
+      },
       data: [
         {
           label: 'activefaults',
@@ -88,6 +94,9 @@ slider.config = {
     },
     {
       name: 'Earth Fissures',
+      info: {
+        summary: 'Earth fissures are open surface fractures that may be as much as a mile in length, up to 15 ft wide, and 10s of feet deep.'  
+      },
       data: [
         {
           label: 'earthfisssures',
@@ -122,6 +131,9 @@ slider.config = {
     },
     {
       name: 'Fire Risk Index',
+      info: {
+        summary: 'This map shows the relative risks of wildfire based on values at risk (i.e. development, infrastructure, etc.), the likelihood of an acre to burn, the expected final fire size based on fuels conditions and potential fire behavior and the difficulty or expense of suppression.'  
+      },
       data: [
         {
           label: 'firerisk',
@@ -136,6 +148,9 @@ slider.config = {
     },
     {
       name: 'Flood Risk',
+      info: {
+        summary: 'Areas with High and Medium flooding potential as represented by the 100- and 500- flood zones determined by the Federal Emergency Management Agency (FEMA) digital flood insurance rate maps (DFIRM) database, dated May 2010.'  
+      },
       data: [
         {
           label: 'floodrisk',

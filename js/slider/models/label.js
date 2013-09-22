@@ -4,18 +4,21 @@ slider.models.Label = function (map) {
         id: id,
         selector: '#' + id, 
         name: map.name,
-        description: map.description | '',
         map: map
       };
   
   map.on('shown', function () {
     d3.select(label.selector)
-      .classed('active', true);
+      .classed('active', true)
+      .append('div')
+      .classed('info-arrow', true);
   });
   
   map.on('hidden', function () {
     d3.select(label.selector)
-      .classed('active', false);
+      .classed('active', false)
+      .select('.info-arrow')
+      .remove();
   });
   
   return label;

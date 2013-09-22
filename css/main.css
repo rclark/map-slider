@@ -33,12 +33,44 @@ ul#labels .map-label.active {
   color: white;
   text-shadow: none;
 }
+ul#labels .map-label .info-arrow {
+  position: relative;
+  top: -52px;
+  margin-left: auto;
+  margin-right: auto;
+}
+ul#labels .map-label .info-arrow:after {
+  content: '';
+  display: block;
+  position: relative;
+  top: -26px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 0;
+  height: 0;
+  border-color: #4464a0 transparent transparent transparent;
+  border-style: solid;
+  border-width: 11px;
+}
+ul#labels .map-label .info-arrow:before {
+  content: '';
+  display: block;
+  position: relative;
+  top: 0px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 0;
+  height: 0;
+  border-color: #819ac9 transparent transparent transparent;
+  border-style: solid;
+  border-width: 13px;
+}
 #map-container {
   position: absolute;
   top: 0px;
   left: 0px;
   right: 0px;
-  bottom: 51px;
+  bottom: 233px;
 }
 #map-container .slider-map {
   height: 100%;
@@ -48,4 +80,23 @@ ul#labels .map-label.active {
   stroke: red;
   stroke-width: 4px;
   transition: all 0.5s ease-in-out;
+}
+#info {
+  background-color: #4464a0;
+  border-bottom: 1px solid #819ac9;
+  border-top: 1px solid #819ac9;
+  position: absolute;
+  height: 180px;
+  bottom: 51px;
+  left: 0px;
+  right: 0px;
+  color: white;
+}
+#info .info-text {
+  width: 35%;
+  height: 180px;
+  border-right: 1px solid #819ac9;
+  display: inline-block;
+  padding: 0 10px;
+  overflow-y: auto;
 }

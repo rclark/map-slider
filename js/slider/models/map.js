@@ -1,19 +1,14 @@
-slider.models.Map = function (name, data, options) {
-  // id for this map's DOM element, and pointer to its container
-  var id = name.toLowerCase().replace(/ /g, '-'),
-      selector = '#' + id,
-      container = d3.select('#map-container');
-  
+slider.models.Map = function (name, data, info) {
   // Generate the map object
   var map = {
     name: name,
-    id: id,
+    id: name.toLowerCase().replace(/ /g, '-'),
     data: data,
     active: false
   };
   
-  // Mixin options and events
-  _.extend(map, options, Backbone.Events);
+  // Mixin info and events
+  _.extend(map, info, Backbone.Events);
   
   // Generate a label for the map
   map.label = slider.models.Label(map);

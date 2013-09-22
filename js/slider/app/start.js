@@ -25,17 +25,15 @@ slider.app.start = function (config) {
   // Generate maps
   var maps = _.map(config.maps, function (mapConfig) {
     var data = _.map(mapConfig.data, function(dataConfig) {
-      return slider.models.Data(dataConfig);  
+      return slider.models.Data(dataConfig);
     });
     
-    return slider.models.Map(mapConfig.name, data, mapConfig.options || {});
+    return slider.models.Map(mapConfig.name, data, mapConfig.info || {});
   });
   
   // Generate labels
   d3.select('#labels').selectAll('li')
-    .data(_.map(maps, function (map) {
-      return map.label;
-    }))
+    .data(_.pluck(maps, 'label'))
     .enter().append('li')
     .text(function (d) { return d.name; })
     .attr('id', function (d) { return d.id; })
@@ -44,15 +42,14 @@ slider.app.start = function (config) {
       slider.app.setActiveMap(d.map);
     });
   
-  
   // Generate the Leaflet map
   d3.select('#map-container').append('div')
     .attr('id', 'map')
     .classed('slider-map', true);
   
   var mapOptions = _.extend({
-    center: L.latLng(34, -111),
-    zoom: 7
+    center: L.latLng(34.243594729697406, -111.46728515624999 ),
+    zoom: 6
   }, config.mapOptions || {});
   
   slider.app.map = L.map('map', mapOptions);

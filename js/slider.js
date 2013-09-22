@@ -1,0 +1,1 @@
+var slider = window.slider = {};

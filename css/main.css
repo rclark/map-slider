@@ -1,0 +1,42 @@
+html,
+body {
+  height: 100%;
+}
+body {
+  background-color: #d3d3d3;
+}
+ul#labels {
+  margin: 0px;
+  padding: 0px;
+  height: 50px;
+  line-height: 50px;
+  background-color: #819ac9;
+  border-bottom: 1px solid #4464a0;
+  color: #819ac9;
+}
+ul#labels .map-label {
+  display: inline-block;
+  list-style-type: none;
+  padding: 0px 10px;
+  border-right: 1px solid #4464a0;
+  height: 50px;
+  color: #5d7dba;
+  text-shadow: 1px 1px #a5b7d8;
+}
+ul#labels .map-label:hover {
+  background-color: #6f8cc1;
+  color: #4c6fb1;
+  cursor: pointer;
+}
+ul#labels .map-label.active {
+  background-color: #4464a0;
+  color: white;
+  text-shadow: none;
+}
+#map-container {
+  height: 100%;
+}
+#map-container .slider-map {
+  height: 100%;
+  width: 100%;
+}

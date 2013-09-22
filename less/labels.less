@@ -1,0 +1,31 @@
+ul#labels {
+  margin: 0px;
+  padding: 0px;
+  height: @barHeight;
+  line-height: @barHeight;
+  background-color: @barColor;
+  border-bottom: 1px solid @borderColor;
+  color: @barColor;
+  
+  .map-label {
+    display: inline-block;
+    list-style-type: none;
+    padding: 0px 10px;
+    border-right: 1px solid @borderColor;
+    height: @barHeight;
+    color: darken(@barColor, 10%);
+    text-shadow: 1px 1px lighten(@barColor, 10%);
+    
+    &:hover {
+      background-color: darken(@barColor, 5%);
+      color: darken(@barColor, 15%);
+      cursor: pointer;
+    }
+    
+    &.active {
+      background-color: @borderColor;
+      color: white;
+      text-shadow: none;
+    }
+  }
+}

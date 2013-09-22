@@ -1,0 +1,23 @@
+{
+  "name": "map-slider",
+  "version": "0.0.0",
+  "description": "Ween GIS pros off of multi-layered maps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azgs/map-slider.git"
+  },
+  "keywords": [
+    "mapping",
+    "gis",
+    "geosptial"
+  ],
+  "author": "Ryan Clark",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/azgs/map-slider/issues"
+  }
+}
